@@ -7,6 +7,7 @@ function socketService(server) {
 
     socket.on('chat-msg', (msg) => {
       console.log(msg)
+      io.emit('new-msg', msg)
     })
     socket.on('disconnect', () => {
       console.log('user disconnected')

@@ -81,19 +81,20 @@
         }
       }
 
-      function printMsg(msg) {
+      function printMsg({ txt, username }) {
         const msgList = document.querySelector('#messages')
-        msgList.innerHTML += ` <li>${msg}</li>`
+        msgList.innerHTML += ` <li>${username}: ${txt}</li>`
       }
 
       function submitMsg(ev) {
         ev.preventDefault()
-        const msgValue = document.querySelector('#input').value
+        let msgValue = document.querySelector('#input')
         const msg = {
           username,
-          txt: msgValue,
+          txt: msgValue.value,
         }
         console.log('submit:', msg)
+        msgValue.value = ''
         socketService.emit('chat-msg', msg)
       }
 
