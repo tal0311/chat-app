@@ -59,6 +59,7 @@
     <ul id="messages"></ul>
     <form id="form" onsubmit="submitMsg(event)">
       <input id="input" autocomplete="off" />
+      <span class="icon paperClip"></span>
       <button>Send</button>
     </form>
 
@@ -70,9 +71,18 @@
       function onInit() {
         socketService = setUp()
         setUserName()
+        setIcons()
         socketService.on('new-msg', printMsg)
       }
 
+      function setIcons() {
+        const elIcons = Array.from(document.querySelector('.icon'))
+        elIcons.forEach((elIcon) => {
+          const iconName = elIcon.classList[1]
+          const icon = getSvg(iconName)
+          elIcon.innerHTML = icon
+        })
+      }
       function setUserName() {
         username = localStorage.username
         if (!username) {
