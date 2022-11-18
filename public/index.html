@@ -60,6 +60,11 @@
     <form id="form" onsubmit="submitMsg(event)">
       <input id="input" autocomplete="off" />
       <span class="icon paperClip"></span>
+      <select name="topic" onchange="onTopicSelect(this.value)">
+        <option value="js">js</option>
+        <option value="vue">vue</option>
+        <option value="react">react</option>
+      </select>
       <button>Send</button>
     </form>
 
@@ -86,6 +91,11 @@
           elIcon.innerHTML = icon
         })
       }
+
+      function onTopicSelect(topic) {
+        console.log('value:', topic)
+      }
+
       function setUserName() {
         username = localStorage.username
         if (!username) {
