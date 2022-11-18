@@ -11,6 +11,6 @@ socketService(server)
 app.use(express.static('public'))
 app.get('/', (req, res) => {})
 
-server.listen(3000, () => {
-  console.log('listening on http://localhost:3000/')
+server.listen(3030, () => {
+  console.log('listening on http://localhost:3030/')
 })

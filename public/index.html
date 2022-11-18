@@ -63,6 +63,7 @@
       <button>Send</button>
     </form>
 
+    <script src="./js/services/svg.service.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket
@@ -79,7 +80,9 @@
         const elIcons = Array.from(document.querySelector('.icon'))
         elIcons.forEach((elIcon) => {
           const iconName = elIcon.classList[1]
+          console.log('getSvg:', getSvg)
           const icon = getSvg(iconName)
+          console.log('icon:', icon)
           elIcon.innerHTML = icon
         })
       }
