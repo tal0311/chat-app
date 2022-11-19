@@ -60,7 +60,7 @@
     <h4 class="topic-header"></h4>
     <ul id="messages"></ul>
     <form id="form" onsubmit="submitMsg(event)">
-      <input id="input" autocomplete="off" />
+      <input id="input" autocomplete="off" required />
       <span class="icon paperClip"></span>
       <select name="topic" onchange="onTopicSelect(this.value)">
         <option value="" selected>select topic</option>
@@ -165,6 +165,16 @@
           accuracy,
         }
         console.log('state:', state)
+        const windowFeatures = `height=${window.innerHeight - 200}
+      ,width=${window.innerWidth / 2},left=${
+          window.innerWidth / 2 - 300
+        },top=200`
+
+        window.open(
+          `https://www.google.com/maps/@${latitude},${longitude},15z`,
+          '_blank',
+          windowFeatures
+        )
       }
       function setUp() {
         socket = io()
