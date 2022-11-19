@@ -56,7 +56,8 @@
     </style>
   </head>
   <body onload="onInit()">
-    <h2 class="topic-header"></h2>
+    <h1 class="user-name"></h1>
+    <h4 class="topic-header"></h4>
     <ul id="messages"></ul>
     <form id="form" onsubmit="submitMsg(event)">
       <input id="input" autocomplete="off" />
@@ -92,6 +93,8 @@
       function renderTopic() {
         const elHeader = document.querySelector('.topic-header')
         elHeader.innerText = state.topic || 'No topic selected'
+        const elUserName = document.querySelector('.user-name')
+        elUserName.innerText = state.username
       }
 
       function setIcons() {
