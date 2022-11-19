@@ -56,11 +56,13 @@
     </style>
   </head>
   <body onload="onInit()">
+    <h2 class="topic-header"></h2>
     <ul id="messages"></ul>
     <form id="form" onsubmit="submitMsg(event)">
       <input id="input" autocomplete="off" />
       <span class="icon paperClip"></span>
       <select name="topic" onchange="onTopicSelect(this.value)">
+        <option value="" selected>select topic</option>
         <option value="js">js</option>
         <option value="vue">vue</option>
         <option value="react">react</option>
@@ -73,12 +75,23 @@
     <script>
       var socket
       var socketService
-      var username
+
+      var state = {
+        topic: '',
+        username: '',
+      }
+
       function onInit() {
         socketService = setUp()
         setUserName()
         setIcons()
+        renderTopic()
         socketService.on('new-msg', printMsg)
+      }
+
+      function renderTopic() {
+        const elHeader = document.querySelector('.topic-header')
+        elHeader.innerText = state.topic || 'No topic selected'
       }
 
       function setIcons() {
@@ -93,13 +106,16 @@
       }
 
       function onTopicSelect(topic) {
-        console.log('value:', topic)
+        state.topic = topic
+        console.log('state:', state)
+        renderTopic()
+        socketService.emit('chat-topic', topic)
       }
 
       function setUserName() {
-        username = localStorage.username
-        if (!username) {
-          username = prompt('Please enter ser name')
+        state.username = localStorage.username
+        if (!state.username) {
+          state.username = prompt('Please enter ser name')
           localStorage.username = username
         }
       }
@@ -113,7 +129,7 @@
         ev.preventDefault()
         let msgValue = document.querySelector('#input')
         const msg = {
-          username,
+          username: state.username,
           txt: msgValue.value,
         }
         console.log('submit:', msg)
