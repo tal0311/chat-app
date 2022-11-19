@@ -164,14 +164,24 @@
           longitude,
           accuracy,
         }
+
+        const msg = {
+          txt: `<a href="#"
+          onclick="onOpenLocation(${latitude},${longitude})">
+          Click to see location</a>`,
+          username: state.username,
+        }
+        socketService.emit('chat-msg', msg)
         console.log('state:', state)
+      }
+
+      function onOpenLocation(lat, lang) {
         const windowFeatures = `height=${window.innerHeight - 200}
       ,width=${window.innerWidth / 2},left=${
           window.innerWidth / 2 - 300
         },top=200`
-
         window.open(
-          `https://www.google.com/maps/@${latitude},${longitude},15z`,
+          `https://www.google.com/maps/@${lat},${lang},13z`,
           '_blank',
           windowFeatures
         )
