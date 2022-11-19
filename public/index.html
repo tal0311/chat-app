@@ -56,7 +56,7 @@
     </style>
   </head>
   <body onload="onInit()">
-    <h1 class="user-name"></h1>
+    <h1 class="user-preview"></h1>
     <h4 class="topic-header"></h4>
     <ul id="messages"></ul>
     <form id="form" onsubmit="submitMsg(event)">
@@ -68,7 +68,8 @@
         <option value="vue">vue</option>
         <option value="react">react</option>
       </select>
-      <button>Send</button>
+      <button onclick="getLocation(event)">user pos</button>
+      <button typ="submit">Send</button>
     </form>
 
     <script src="./js/services/svg.service.js"></script>
@@ -80,6 +81,7 @@
       var state = {
         topic: '',
         username: '',
+        pos: null,
       }
 
       function onInit() {
@@ -93,7 +95,7 @@
       function renderTopic() {
         const elHeader = document.querySelector('.topic-header')
         elHeader.innerText = state.topic || 'No topic selected'
-        const elUserName = document.querySelector('.user-name')
+        const elUserName = document.querySelector('.user-preview')
         elUserName.innerText = state.username
       }
 
@@ -139,7 +141,31 @@
         msgValue.value = ''
         socketService.emit('chat-msg', msg)
       }
+      async function getLocation(ev) {
+        ev.preventDefault()
+        try {
+          await window.navigator.geolocation.getCurrentPosition(
+            setUserPos,
+            error,
+            { enableHighAccuracy: true }
+          )
+        } catch (error) {
+          console.log('can not get location:')
+        }
+      }
 
+      function error() {
+        console.log('can not get User location')
+      }
+      function setUserPos(pos) {
+        const { latitude, longitude, accuracy } = pos.coords
+        state.pos = {
+          latitude,
+          longitude,
+          accuracy,
+        }
+        console.log('state:', state)
+      }
       function setUp() {
         socket = io()
         return {
